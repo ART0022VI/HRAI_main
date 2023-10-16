@@ -1,0 +1,21 @@
+import tensorflow as tf
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Activation, Dropout
+from gensim.models import KeyedVectors
+
+# Hyperparameters
+N_EPOCHS = 10 # Number of epochs
+BATCH_SIZE = 16 # Batch size
+N_FEATURES = 5000 # Number of features
+N_CLASSES = 2 # Number of classes
+DROPOUT = 0.5 # Dropout rate
+
+# Loading word vectors
+word_vects = KeyedVectors.load_word2vec_format('GoogleNews-vectors-negative300.bin', binary=True)
+word_index = {k: i for i, k in enumerate(word_vects.key_to_index)}
+
+
+def get_word_embedding(word):
+  if word in word_index:
+    embedding = np.asarray(word_vects[word_index[word]])
+  else:
